@@ -83,6 +83,7 @@ az-infra-2026/
 ├── module/                   # Reusable child Terraform modules
 │   ├── azure_app_gateway/    # Application Gateway (Standard_v2) module
 │   ├── azure_bastion/        # Azure Bastion Host module
+│   ├── azure_key_vault/      # Key Vault & secret management module
 │   ├── azure_load_balancer/  # Internal Load Balancer module
 │   ├── azure_public_ip/      # Public IP address management module
 │   ├── azure_resource_group/ # Azure Resource Group module
@@ -102,6 +103,7 @@ az-infra-2026/
 | Parameter / Feature | Development (`dev`) | Production (`prod`) |
 | :--- | :--- | :--- |
 | **Resource Group** | `iad-az-dev-rg` | `iad-az-prod-rg` |
+| **Key Vault Name** | `iad-az-dev-kv-2026` | `iad-az-prod-kv-2026` |
 | **Location** | `centralindia` | `centralindia` |
 | **Virtual Network** | `iad-az-dev-vnet` | `iad-az-prod-vnet` |
 | **VNet Address CIDR** | `10.0.0.0/16` | `10.1.0.0/16` |
@@ -121,10 +123,11 @@ az-infra-2026/
 Each child module in `module/` handles a single resource responsibility:
 
 - **[azure_resource_group](file:///c:/az-infra-2026/module/azure_resource_group)**: Creates resource groups based on a map input.
+- **[azure_key_vault](file:///c:/az-infra-2026/module/azure_key_vault)**: Deploys Azure Key Vault and manages `vm-admin-username` and `vm-admin-password` secrets.
 - **[azure_virtual_network](file:///c:/az-infra-2026/module/azure_virtual_network)**: Provisions Virtual Networks and address spaces.
 - **[azure_virtual_subnet](file:///c:/az-infra-2026/module/azure_virtual_subnet)**: Manages subnet allocation within VNets.
 - **[azure_public_ip](file:///c:/az-infra-2026/module/azure_public_ip)**: Creates static Standard SKU Public IPs for Gateway & Bastion.
-- **[azure_virtual_machine](file:///c:/az-infra-2026/module/azure_virtual_machine)**: Configures NICs, Linux VMs, OS disks, and credentials.
+- **[azure_virtual_machine](file:///c:/az-infra-2026/module/azure_virtual_machine)**: Configures NICs, Linux VMs, OS disks, and credentials stored in Key Vault secrets.
 - **[azure_bastion](file:///c:/az-infra-2026/module/azure_bastion)**: Deploys Azure Bastion host service connected to `AzureBastionSubnet`.
 - **[azure_app_gateway](file:///c:/az-infra-2026/module/azure_app_gateway)**: Deploys Application Gateway with HTTP listener, routing rules, and frontend pool targets.
 - **[azure_load_balancer](file:///c:/az-infra-2026/module/azure_load_balancer)**: Configures internal load balancer with health probes, rules, and backend pool associations for Backend VMs.

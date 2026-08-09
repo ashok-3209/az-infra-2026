@@ -73,8 +73,8 @@ locals {
       resource_group_name = module.resource_group.resource_group_names["iad_az_prod"]
       subnet_id           = module.subnets.subnet_ids["frontend"]
       size                = var.vm_size
-      admin_username      = var.vm_admin_username
-      admin_password      = var.vm_admin_password
+      admin_username      = module.key_vault.admin_username_secret_value
+      admin_password      = module.key_vault.admin_password_secret_value
       tier                = "frontend"
     }
     frontend_vm2 = {
@@ -83,8 +83,8 @@ locals {
       resource_group_name = module.resource_group.resource_group_names["iad_az_prod"]
       subnet_id           = module.subnets.subnet_ids["frontend"]
       size                = var.vm_size
-      admin_username      = var.vm_admin_username
-      admin_password      = var.vm_admin_password
+      admin_username      = module.key_vault.admin_username_secret_value
+      admin_password      = module.key_vault.admin_password_secret_value
       tier                = "frontend"
     }
     backend_vm1 = {
@@ -93,8 +93,8 @@ locals {
       resource_group_name = module.resource_group.resource_group_names["iad_az_prod"]
       subnet_id           = module.subnets.subnet_ids["backend"]
       size                = var.vm_size
-      admin_username      = var.vm_admin_username
-      admin_password      = var.vm_admin_password
+      admin_username      = module.key_vault.admin_username_secret_value
+      admin_password      = module.key_vault.admin_password_secret_value
       tier                = "backend"
     }
     backend_vm2 = {
@@ -103,8 +103,8 @@ locals {
       resource_group_name = module.resource_group.resource_group_names["iad_az_prod"]
       subnet_id           = module.subnets.subnet_ids["backend"]
       size                = var.vm_size
-      admin_username      = var.vm_admin_username
-      admin_password      = var.vm_admin_password
+      admin_username      = module.key_vault.admin_username_secret_value
+      admin_password      = module.key_vault.admin_password_secret_value
       tier                = "backend"
     }
     database_vm1 = {
@@ -113,8 +113,8 @@ locals {
       resource_group_name = module.resource_group.resource_group_names["iad_az_prod"]
       subnet_id           = module.subnets.subnet_ids["database"]
       size                = var.vm_size
-      admin_username      = var.vm_admin_username
-      admin_password      = var.vm_admin_password
+      admin_username      = module.key_vault.admin_username_secret_value
+      admin_password      = module.key_vault.admin_password_secret_value
       tier                = "database"
     }
   }
@@ -124,6 +124,18 @@ locals {
 module "resource_group" {
   source          = "../../module/azure_resource_group"
   resource_groups = local.resource_groups
+}
+
+# Child Module: Azure Key Vault (Secret storage for VM credentials)
+module "key_vault" {
+  source              = "../../module/azure_key_vault"
+  key_vault_name      = var.key_vault_name
+  location            = module.resource_group.resource_group_locations["iad_az_prod"]
+  resource_group_name = module.resource_group.resource_group_names["iad_az_prod"]
+  admin_username      = var.vm_admin_username
+  admin_password      = var.vm_admin_password
+  tags                = var.tags
+  depends_on          = [module.resource_group]
 }
 
 # Child Module 2: Virtual Network
@@ -147,11 +159,11 @@ module "public_ip" {
   depends_on = [module.resource_group]
 }
 
-# Child Module 5: Virtual Machines
+# Child Module 5: Virtual Machines (5 VMs, credentials fetched from Key Vault secrets)
 module "virtual_machine" {
   source     = "../../module/azure_virtual_machine"
   vms        = local.vms
-  depends_on = [module.subnets]
+  depends_on = [module.subnets, module.key_vault]
 }
 
 # Child Module 6: Azure Bastion Host

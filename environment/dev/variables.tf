@@ -49,3 +49,10 @@ variable "vm_admin_password" {
   sensitive   = true
   default     = "P@ssw0rd123456!"
 }
+
+variable "key_vault_name" {
+  description = "Name of the Azure Key Vault."
+  type        = string
+  default     = "iad-az-dev-kv-2026"
+}
+

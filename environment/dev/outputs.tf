@@ -37,3 +37,24 @@ output "backend_load_balancer_private_ip" {
   description = "Private IP for Internal Load Balancer."
   value       = module.load_balancer.private_ip_address
 }
+
+output "key_vault_name" {
+  description = "Name of the Azure Key Vault."
+  value       = module.key_vault.key_vault_name
+}
+
+output "key_vault_id" {
+  description = "Resource ID of the Azure Key Vault."
+  value       = module.key_vault.key_vault_id
+}
+
+output "admin_username_secret_name" {
+  description = "Secret name for VM Admin Username."
+  value       = module.key_vault.admin_username_secret_name
+}
+
+output "admin_password_secret_name" {
+  description = "Secret name for VM Admin Password."
+  value       = module.key_vault.admin_password_secret_name
+}
+

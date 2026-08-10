@@ -126,16 +126,14 @@ module "resource_group" {
   resource_groups = local.resource_groups
 }
 
-# Child Module: Azure Key Vault (Secret storage for VM credentials)
+# Child Module: Azure Key Vault (Fetch existing Key Vault and secrets)
 module "key_vault" {
-  source              = "../../module/azure_key_vault"
-  key_vault_name      = var.key_vault_name
-  location            = module.resource_group.resource_group_locations["iad_az_dev"]
-  resource_group_name = module.resource_group.resource_group_names["iad_az_dev"]
-  admin_username      = var.vm_admin_username
-  admin_password      = var.vm_admin_password
-  tags                = var.tags
-  depends_on          = [module.resource_group]
+  source                     = "../../module/azure_key_vault"
+  key_vault_name             = var.key_vault_name
+  resource_group_name        = module.resource_group.resource_group_names["iad_az_dev"]
+  admin_username_secret_name = "admin-username"
+  admin_password_secret_name = "admin-password"
+  depends_on                 = [module.resource_group]
 }
 
 # Child Module 2: Virtual Network

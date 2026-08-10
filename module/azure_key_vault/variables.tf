@@ -1,33 +1,21 @@
 variable "key_vault_name" {
-  description = "Name of the Azure Key Vault."
-  type        = string
-}
-
-variable "location" {
-  description = "Azure region location."
+  description = "Name of the existing Azure Key Vault."
   type        = string
 }
 
 variable "resource_group_name" {
-  description = "Name of the Resource Group."
+  description = "Name of the Resource Group where Key Vault exists."
   type        = string
 }
 
-variable "admin_username" {
-  description = "VM Administrator username to store in Key Vault."
+variable "admin_username_secret_name" {
+  description = "Name of the secret in Key Vault that contains the admin username."
   type        = string
-  default     = "azureuser"
+  default     = "admin-username"
 }
 
-variable "admin_password" {
-  description = "VM Administrator password to store in Key Vault (leave empty to auto-generate)."
+variable "admin_password_secret_name" {
+  description = "Name of the secret in Key Vault that contains the admin password."
   type        = string
-  sensitive   = true
-  default     = ""
-}
-
-variable "tags" {
-  description = "Tags for Key Vault."
-  type        = map(string)
-  default     = {}
+  default     = "admin-password"
 }

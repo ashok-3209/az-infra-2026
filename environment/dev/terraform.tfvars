@@ -1,5 +1,5 @@
 resource_group_name = "iad-az-dev-rg"
-key_vault_name      = "iad-az-dev-kv-2026"
+key_vault_name      = "az-askvault-01"
 location            = "centralindia"
 vnet_name           = "iad-az-dev-vnet"
 address_space       = "10.0.0.0/16"

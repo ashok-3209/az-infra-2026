@@ -19,7 +19,7 @@ variable "location" {
 variable "tags" {
   description = "Tags to apply to the resource group."
   type        = map(string)
-  default     = {
+  default = {
     environment = "dev"
     project     = "iad-az-dev-landing-zone"
   }
@@ -44,10 +44,10 @@ variable "vm_admin_username" {
 }
 
 variable "vm_admin_password" {
-  description = "Admin password for the Linux VMs."
+  description = "Admin password for the Linux VMs (leave empty to auto-generate in Key Vault)."
   type        = string
   sensitive   = true
-  default     = "P@ssw0rd123456!"
+  default     = ""
 }
 
 variable "key_vault_name" {
@@ -55,4 +55,3 @@ variable "key_vault_name" {
   type        = string
   default     = "iad-az-dev-kv-2026"
 }
-

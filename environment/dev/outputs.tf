@@ -57,4 +57,3 @@ output "admin_password_secret_name" {
   description = "Secret name for VM Admin Password."
   value       = module.key_vault.admin_password_secret_name
 }
-

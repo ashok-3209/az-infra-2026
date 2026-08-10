@@ -136,6 +136,7 @@ module "key_vault" {
   admin_password_secret_name = "admin-password"
 }
 
+
 # Child Module 2: Virtual Network
 module "virtual_network" {
   source           = "../../module/azure_virtual_network"

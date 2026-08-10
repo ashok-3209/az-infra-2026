@@ -6,12 +6,11 @@ on:
       - "main"
       - "feature/**"
       - "fix/**"
-      
+
   pull_request:
     branches:
       - "main"
   workflow_dispatch:
-
 
 permissions:
   id-token: write

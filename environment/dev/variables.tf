@@ -19,7 +19,7 @@ variable "location" {
 variable "tags" {
   description = "Tags to apply to the resource group."
   type        = map(string)
-  default     = {
+  default = {
     environment = "dev"
     project     = "iad-az-dev-landing-zone"
   }

@@ -199,7 +199,7 @@ module "load_balancer" {
   location            = module.resource_group.resource_group_locations["iad_az_dev"]
   resource_group_name = module.resource_group.resource_group_names["iad_az_dev"]
   subnet_id           = module.subnets.subnet_ids["backend"]
-  backend_nic_ids     = {
+  backend_nic_ids = {
     backend_vm1 = module.virtual_machine.vm_nic_ids["backend_vm1"],
     backend_vm2 = module.virtual_machine.vm_nic_ids["backend_vm2"]
   }

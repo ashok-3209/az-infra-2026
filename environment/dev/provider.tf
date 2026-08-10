@@ -7,6 +7,7 @@ terraform {
       version = ">= 3.0"
     }
   }
+
   backend "azurerm" {
     resource_group_name  = "az-rg-devops01"
     storage_account_name = "azstgdevops01"

@@ -48,4 +48,3 @@ resource "azurerm_key_vault_secret" "admin_password" {
   value        = var.admin_password != "" ? var.admin_password : random_password.vm_password.result
   key_vault_id = azurerm_key_vault.kv.id
 }
-

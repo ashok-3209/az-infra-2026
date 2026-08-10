@@ -55,4 +55,3 @@ variable "key_vault_name" {
   type        = string
   default     = "iad-az-dev-kv-2026"
 }
-

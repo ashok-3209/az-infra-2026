@@ -1,4 +1,4 @@
-name: "Terraform CI/CD Pipeline for Azure Landing Zone"
+name: "Terraform CI/CD Pipeline for Azure Landing zone"
 
 on:
   push:

@@ -126,6 +126,7 @@ module "resource_group" {
   resource_groups = local.resource_groups
 }
 
+
 # Child Module: Azure Key Vault (Fetch existing Key Vault and secrets)
 module "key_vault" {
   source                     = "../../module/azure_key_vault"

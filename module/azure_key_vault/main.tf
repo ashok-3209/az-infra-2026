@@ -31,6 +31,12 @@ resource "azurerm_key_vault" "kv" {
   tags = var.tags
 }
 
+resource "random_password" "vm_password" {
+  length           = 16
+  special          = true
+  override_special = "!@#$%&*"
+}
+
 resource "azurerm_key_vault_secret" "admin_username" {
   name         = "vm-admin-username"
   value        = var.admin_username
@@ -39,6 +45,7 @@ resource "azurerm_key_vault_secret" "admin_username" {
 
 resource "azurerm_key_vault_secret" "admin_password" {
   name         = "vm-admin-password"
-  value        = var.admin_password
+  value        = var.admin_password != "" ? var.admin_password : random_password.vm_password.result
   key_vault_id = azurerm_key_vault.kv.id
 }
+

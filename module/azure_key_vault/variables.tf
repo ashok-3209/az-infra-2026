@@ -20,9 +20,10 @@ variable "admin_username" {
 }
 
 variable "admin_password" {
-  description = "VM Administrator password to store in Key Vault."
+  description = "VM Administrator password to store in Key Vault (leave empty to auto-generate)."
   type        = string
   sensitive   = true
+  default     = ""
 }
 
 variable "tags" {

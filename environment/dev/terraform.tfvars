@@ -4,8 +4,6 @@ location            = "centralindia"
 vnet_name           = "iad-az-dev-vnet"
 address_space       = "10.0.0.0/16"
 vm_size             = "Standard_D2s_v3"
-vm_admin_username   = "azureuser"
-vm_admin_password   = "P@ssw0rd123456!"
 
 tags = {
   environment = "dev"

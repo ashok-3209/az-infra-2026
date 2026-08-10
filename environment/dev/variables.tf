@@ -44,10 +44,10 @@ variable "vm_admin_username" {
 }
 
 variable "vm_admin_password" {
-  description = "Admin password for the Linux VMs."
+  description = "Admin password for the Linux VMs (leave empty to auto-generate in Key Vault)."
   type        = string
   sensitive   = true
-  default     = "P@ssw0rd123456!"
+  default     = ""
 }
 
 variable "key_vault_name" {

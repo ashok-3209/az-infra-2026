@@ -200,3 +200,38 @@ After a successful deployment, Terraform exposes the following outputs:
 
 - **No Public IPs on VMs**: Virtual Machines exist entirely on private subnets. External access is strictly controlled via Application Gateway for web traffic and Azure Bastion for management SSH sessions.
 - **Sensitive Variables**: Administrator credentials (`vm_admin_password`) are marked as `sensitive` in Terraform. Avoid committing plain-text secrets into version control for production environments. Use Azure Key Vault or environment variables (`TF_VAR_vm_admin_password`) in production pipelines.
+
+---
+
+## 🤖 CI/CD Pipeline (GitHub Actions)
+
+This repository includes a production-ready GitHub Actions workflow [.github/workflows/terraform.yml](file:///c:/az-infra-2026/.github/workflows/terraform.yml) designed for secure Terraform automation.
+
+### Workflow Triggers & Execution Stages
+
+1. **Feature Branch Push (`feature/**`, `fix/**`)**:
+   - Runs formatting check (`terraform fmt -check`).
+   - Initializes and validates configuration (`terraform validate`).
+   - Executes `terraform plan` for both `dev` and `prod` environments.
+
+2. **Pull Request targeting `main`**:
+   - Runs `terraform fmt` check and `terraform validate`.
+   - Executes `terraform plan` and posts an automated summary comment on the Pull Request.
+
+3. **Merge to `main` (Manual Approval Gate)**:
+   - Triggers `terraform apply` for `dev` and `prod` environments.
+   - Enforces **Manual Approval Gates** via GitHub Repository Environments (`dev` and `prod`). Deployment pauses until a designated reviewer approves in the GitHub UI.
+
+### Required GitHub Repository Secrets
+
+Configure the following secrets in GitHub under **Settings > Secrets and variables > Actions**:
+
+- `AZURE_CLIENT_ID`: Azure Service Principal / OIDC Application Client ID
+- `AZURE_TENANT_ID`: Azure Active Directory Tenant ID
+- `AZURE_SUBSCRIPTION_ID`: Azure Subscription ID
+
+### Setting up Manual Approval Gates in GitHub
+
+1. Navigate to **Settings > Environments** in your GitHub repository.
+2. Create environment `dev` and environment `prod`.
+3. Check **Required reviewers** and assign designated team members/approvers.
